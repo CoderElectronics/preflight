@@ -19,6 +19,6 @@ npm i -g surge
 pip3 install -r app\requirements.txt
 build.bat
 ```
-
 <br>
-To clean the build environment, run `clean.bat`
+
+This will put a release executable in the `app/dist/` folder. Once you are done, To clean the build environment, run `clean.bat`

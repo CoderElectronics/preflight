@@ -6,11 +6,12 @@ We work with companies that sell FPV racing drones to unify all of the configura
 
 ## Compiling
 
-Just run the `built.bat` file to create the EXE and deploy the web server.
+Just run the `build.bat` file to create the EXE and deploy the static content to surge.
 <br>
 
-If you just want to compile the EXE, open the app directory and install all the required dependencies. Then run pyinstaller to make the EXE.
+If you just want to compile the EXE (the best option), open the app directory and install all the required dependencies. Then run pyinstaller to make the EXE.
 ```bash
+npm i -g surge
 pip3 install -r app\requirements.txt
 pyinstaller --onefile preflight-beta.spec
 ```

@@ -29,7 +29,6 @@ This will put a release executable in the `app/dist/` folder. Once you are done,
 - Cleanflight <br>
 - iNav <br>
 - Butterflight <br>
-- Betaflight <br>
 - Emuflight <br>
 - FalcoX <br>
 - Kiss / Fettec (Not implemented yet) <br>

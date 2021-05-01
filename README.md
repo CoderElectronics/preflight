@@ -1,3 +1,4 @@
+![](targets/img/logo.png)
 # Preflight Beta
 
 Preflight is a tool to repair or reset your racing drone's configuration in the easiest way possible. Simply download the app, and select your FPV drone model to reset your config.
@@ -20,4 +21,4 @@ build.bat
 ```
 
 <br>
-To clean the build environment, run `clean.bat'
+To clean the build environment, run `clean.bat`

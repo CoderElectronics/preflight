@@ -1,0 +1,6 @@
+requests==2.25.1
+Eel==0.14.0
+pyserial==3.5
+selenium==3.141.0
+chromedriver==2.24.1
+pyinstaller

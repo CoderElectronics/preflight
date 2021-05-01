@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Preflight Configurator</title>
+        
+        <!-- Include eel.js - note this file doesn't exist in the 'web' directory -->
+        <script type="text/javascript" src="/eel.js"></script>
+        <link rel="stylesheet" href="src/bootstrap.min.css" />
+        <link rel="icon" href="favicon.ico">
+        <link rel="shortcut icon" href="favicon.ico">
+
+        <style>
+          .spimage {
+            width: 110px; border-radius: 30%/20%;
+          }
+        </style>
+
+        <script type="text/javascript">
+            var releases;
+            var comports;
+            var activecomport;
+            var processed_releases = {};
+            
+            function setPort(portn) {
+              activecomport = portn;
+            }
+
+            function setPage(pagen) {
+              document.getElementById(pagen).style.display = "block";
+              
+              if (pagen == "aboutpage") {
+                document.getElementById("readpage").style.display = "none";
+                document.getElementById("writepage").style.display = "none";
+              }
+
+              if (pagen == "writepage") {
+                document.getElementById("readpage").style.display = "none";
+                document.getElementById("aboutpage").style.display = "none";
+              }
+
+              if (pagen == "readpage") {
+                document.getElementById("aboutpage").style.display = "none";
+                document.getElementById("writepage").style.display = "none";
+              }
+            }
+
+            function updateStatBar(x) {
+              document.getElementById("statbar").setAttribute("aria-valuenow", x);
+              document.getElementById("statbar").style.width = `${x}%`;
+            }
+
+            async function backupConfig() {
+              updateStatBar(0);
+              document.getElementById('cfgtxt').value = "";
+
+              var target = document.getElementById('firmwareselect').value;
+              document.getElementById('cfgtxt').value = await eel.action_readconfig(activecomport, target)()
+              updateStatBar(100);
+            }
+
+            async function flashConfig() {
+              var mfSelect = document.getElementById("mfselect").value;
+              var qmSelect = document.getElementById("qmselect").value;
+              var confIndex = -1;
+              
+              for (var i = 0; i < processed_releases[mfSelect].length; i++) {
+                if (processed_releases[mfSelect][i][0] == qmSelect) {
+                  confIndex = i;
+                }
+              }
+
+              var filen = processed_releases[mfSelect][confIndex][4];
+              var target = processed_releases[mfSelect][confIndex][3];
+              var status = await eel.action_writeconfig(activecomport, target, target+"/"+filen)()
+
+              if (status == 0) {
+                document.getElementById("statmbody").innerHTML = "Configuration was flashed successfully!"
+                $('#statmodel').modal('show');
+              } else {
+                document.getElementById("statmbody").innerHTML = "There was an error while flashing configuration! Please unplug and plug your drone back in, then select your serial port again."
+                $('#statmodel').modal('show');
+              }
+            }
+
+            async function scanReleases() {
+              // Inside a function marked 'async' we can use the 'await' keyword.
+
+              releases = await eel.action_getrelease()(); // Must prefix call with 'await', otherwise it's the same syntax
+              
+              if (releases != "-1") {
+                console.log("Releases downloaded successfully!");
+                releases = JSON.parse(releases);
+
+                for (var i = 0; i < releases.length; i++) {
+                  if (processed_releases.hasOwnProperty(releases[i][1])){
+                    processed_releases[releases[i][1]].push(releases[i])
+                  } else {
+                    processed_releases[releases[i][1]] = [];
+                    processed_releases[releases[i][1]].push(releases[i])
+                  }
+                }
+
+                var releasekeys = Object.keys(processed_releases);
+                document.getElementById("mfselect").innerHTML = "";
+                
+                for (var i = 0; i < releasekeys.length; i++) {
+                  document.getElementById("mfselect").innerHTML += `<option value="${releasekeys[i]}">${releasekeys[i]}</option>`;
+                }
+
+                updateModels();
+              }
+            }
+
+            function updateModels() {
+              var mfSelect = document.getElementById("mfselect").value;
+
+              document.getElementById("qmselect").innerHTML = "";
+                
+              for (var i = 0; i < processed_releases[mfSelect].length; i++) {
+                document.getElementById("qmselect").innerHTML += `<option value="${processed_releases[mfSelect][i][0]}">${processed_releases[mfSelect][i][0]}</option>`;
+              }
+            }
+
+            async function scanPorts() {
+              document.getElementById('portslist').innerHTML = "";
+
+              comports = JSON.parse(await eel.action_scanports()());
+
+              for (var i = 0; i < comports.length; i++) {
+                  document.getElementById('portslist').innerHTML += `<a class="dropdown-item" href="javascript:setPort('${comports[i]}');">${comports[i]}</a>`;
+              }
+              console.log("Ports scanned!");
+            }
+
+            scanReleases();
+        </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="javascript:javascript:setPage('aboutpage');">
+              <img src="src/img/logo-im.png" width="30" height="30" class="d-inline-block align-top" alt="">
+              Preflight
+            </a>
+
+            <div class="navbar-expand" id="navbarColor01">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configuration</a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="javascript:setPage('writepage')">Flash Config</a>
+                    <a class="dropdown-item" href="javascript:setPage('readpage')">Backup Config</a>
+                  </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" onclick="scanPorts()" role="button" aria-haspopup="true" aria-expanded="false">Serial Port</a>
+                  <div class="dropdown-menu" id="portslist">
+                  </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:setPage('aboutpage')">About</a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+
+        <br>
+        <div style="width: 92%; margin: 0px auto;">
+            <div id="aboutpage" style="width: 100%;">
+              <div style="width:100%;text-align: center;">
+                <br>
+                <h3 style="margin: 0px auto;">Preflight v0.1 (Beta)</h3>
+                <p style="font-size: 11px;">Created April 2021 by Ari Stehney of AStehney Labs.</p>
+                <br></br>
+                <br></br>
+                <p style="font-size: 11px;">Sponsors and Partners:</p>
+                <br>
+                <div class="container" >
+                  <div class="row" style="width: 440px; margin: 0px auto;">
+                    <a class="imglink" href="https://amaxshop.com/"        target="_blank"><img class="col-sm spimage" src="src/img/amax.png"></img></a>
+                    <a class="imglink" href="https://emax-usa.com/"        target="_blank"><img class="col-sm spimage" src="src/img/emax.png"></img></a>
+                    <a class="imglink" href="https://shop.iflight-rc.com/" target="_blank"><img class="col-sm spimage" src="src/img/iflight.png"></img></a>
+                    <a class="imglink" href="https://www.foxeer.com/"      target="_blank"><img class="col-sm spimage" src="src/img/foxeer.jpg"></img></a>
+                  </div>
+                </div>
+                <br><br>
+                <p style="font-size: 13px;">Select the connected serial port and use the configuration<br> menu to flash or backup your quad.</p>
+              </div>
+              
+            </div>
+            <div id="readpage" style="width: 100%; display: none;">
+              <div class="form-group">
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="backupConfig()">Backup Configuration</button>
+                <select class="custom-select" id="firmwareselect">
+                  <option selected="" value="BTFL">Betaflight</option>
+                  <option value="BTFL">Cleanflight</option>
+                  <option value="BTFL">iNav</option>
+                  <option value="BTFL">Emuflight</option>
+                  <option value="BTFL">Butterflight</option>
+                  <option value="FLKX">FalcoX</option>
+                  <option value="FKIS">Fettec (N/A)</option>
+                  <option value="KISS">Kiss (N/A)</option>
+                </select>
+              </div>
+              
+              <br>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped" id="statbar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" id="cfgtxt" rows="3" style="resize: none; height: 273px; background-color: black; color: whitesmoke; font-family: monospace;"></textarea>
+              </div>
+
+            </div>
+            <div id="writepage" style="width: 100%; display: none;">
+             
+              <label class="custom-select-label" for="mfselect">Manufacturer</label>
+              <select onchange="updateModels()" class="custom-select" id="mfselect">
+              </select>
+            
+              <br></br>
+              <label class="custom-select-label" for="qmselect">Drone Model</label>
+              <select class="custom-select" id="qmselect">
+              </select>
+
+              <br></br>
+              <br></br>
+              <br></br>
+              <br></br>
+              <br></br>
+              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="flashConfig()">Flash Configuration</button>
+              
+              <!-- Modal -->
+              <div class="modal fade" id="statmodel" tabindex="-1" role="dialog" aria-labelledby="statModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="statModalLabel">Status</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="statmbody">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+        </div>
+
+        <!-- Bootstrap JS code -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="src/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

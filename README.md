@@ -10,15 +10,15 @@ We are working with companies that sell FPV racing drones to unify all of the co
 2. Python3 and Pip3<br>
 ## Compiling
 
-Just run the `deploy.bat` file to create the EXE and deploy the static content to surge.
-<br>
-
 If you just want to compile the EXE (the best option), open the app directory and install all the required dependencies. Then run pyinstaller to make the EXE.
 ```bash
 npm i -g surge
 pip3 install -r app\requirements.txt
 build.bat
 ```
+<br>
+
+Just run the `deploy.bat` file to create the EXE and deploy the static content to surge.
 <br>
 
 This will put a release executable in the `app/dist/` folder. Once you are done, To clean the build environment, run `clean.bat`

@@ -4,6 +4,8 @@
 Preflight is a tool to repair, backup, or reset your racing drone's configuration in the easiest way possible. Simply download the app, and select your Prebuilt FPV drone model to reset your config.
 <br><br>
 We are working with companies that sell FPV racing drones to unify all of the configuration work neccesary to keep you up in the air! 
+<br><br>
+For premade executables, visit [the project website](https://preflight-dl.surge.sh).
 
 ## Requirements to Compile
 1. Node.js and NPM<br>

@@ -5,8 +5,8 @@
     ["TinyHawk Freestyle (BNF)", "EMAX",    "Betaflight v4.x", "BTFL", "55f38eb1-eb24-4b20-bff0-32342a53ac23.txt"],
 
     ["Reset Quad Name", "Custom_Snippets",   "Betaflight",     "BTFL", "snippet-reset-name.txt"],
-    ["Firmware Defaults", "Custom_Snippets", "FalcoX",         "FLKX", "snippet-factory-flkx.txt"],
-    ["Firmware Defaults", "Custom_Snippets", "Betaflight",     "BTFL", "snippet-factory-btfl.txt"],
+    ["Firmware Defaults (FalcoX)", "Custom_Snippets", "FalcoX",         "FLKX", "snippet-factory-flkx.txt"],
+    ["Firmware Defaults (Most others)", "Custom_Snippets", "Betaflight",     "BTFL", "snippet-factory-btfl.txt"],
     ["Change RX to CRSF", "Custom_Snippets",  "Betaflight",    "BTFL", "snippet-crsf-rx.txt"],
     ["Change RX to SBUS", "Custom_Snippets", "Betaflight",     "BTFL", "snippet-sbus-rx.txt"],
     ["Change RX to SBUS (inverted)", "Custom_Snippets", "Betaflight",     "BTFL", "snippet-sbus-inv-rx.txt"]

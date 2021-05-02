@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Preflight Configurator</title>
+        
+        <!-- Include eel.js - note this file doesn't exist in the 'web' directory -->
+        <link rel="stylesheet" href="src/bootstrap.min.css" />
+        <link rel="icon" href="favicon.ico">
+        <link rel="shortcut icon" href="favicon.ico">
+
+        <style>
+          .spimage {
+            width: 110px; border-radius: 30%/20%;
+          }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="">
+              <img src="src/img/logo-im.png" width="30" height="30" class="d-inline-block align-top" alt="">
+              Preflight
+            </a>
+
+            <div class="navbar-expand" id="navbarColor01">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configuration</a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="">Flash Config</a>
+                    <a class="dropdown-item" href="">Backup Config</a>
+                  </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" onclick="" role="button" aria-haspopup="true" aria-expanded="false">Serial Port</a>
+                  <div class="dropdown-menu" id="portslist">
+                  </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="">About</a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+
+        <br>
+        <div style="width: 92%; margin: 0px auto;">
+            <div id="writepage" style="width: 100%;">
+             
+              <label class="custom-select-label" for="mfselect">Manufacturer</label>
+              <select onchange="" class="custom-select" id="mfselect">
+                <option value="" id="manf-box"></option>
+              </select>
+            
+              <br></br>
+              <label class="custom-select-label" for="qmselect">Drone Model</label>
+              <select class="custom-select" id="qmselect" value="mp">
+                <option value="" id="prod-box"></option>
+              </select>
+
+              <br></br>
+              <br></br>
+              <br></br>
+              <br></br>
+              <br></br>
+              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="">Flash Configuration</button>
+              
+              <!-- Modal -->
+              <div class="modal fade" id="statmodel" tabindex="-1" role="dialog" aria-labelledby="statModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="statModalLabel">Status</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="statmbody">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+        </div>
+
+        <script>
+          const qrParams = new URLSearchParams(window.location.search);
+          document.getElementById("manf-box").innerHTML = qrParams.get("man");
+          document.getElementById("prod-box").innerHTML = qrParams.get("prod");
+        </script>
+
+        <!-- Bootstrap JS code -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="src/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

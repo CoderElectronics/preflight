@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>DL Server · Preflight</title>
+    <title>QR Code Preset · Preflight</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -41,11 +41,11 @@
               <li class="nav-item">
                 <a class="nav-link" href="index.html">Home</a>
               </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Downloads <span class="sr-only">(current)</span></a>
-              </li>
               <li class="nav-item">
-                <a class="nav-link" href="database.html">View Database</a>
+                <a class="nav-link" href="#">Downloads</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="database.html">View Database<span class="sr-only">(current)</span></a>
               </li>
             </ul>
           </div>
@@ -55,30 +55,20 @@
       <!-- Begin page content -->
       <main role="main" class="flex-shrink-0">
         <div class="container">
-          <h1 class="mt-5">Latest Downloads</h1>
+          <h1 class="mt-5">Flash your new drone!</h1>
           <br></br>
 
-          <table class="table" style="border: 1px dotted grey;">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">Filename</th>
-                <th scope="col">Platform</th>
-                <th scope="col">Version</th>
-                <th scope="col">Link</th>
-              </tr>
-            </thead>
-            <tbody id="dbbody">
-              <tr>
-                <td>preflight-latest.exe</td>
-                <td>Windows 7/8/10</td>
-                <td>latest (v0.1)</td>
-                <td><a href="downloads/preflight-latest.exe">Download</a></td>
-              </tr>
-            </tbody>
-          </table>
-
+          <!-- QR Code Here -->
+          <b><p id="drone-welcome"></p></b>
           <br>
+          Click <a href="downloads/preflight-latest.exe">here</a> to download the Preflight app. Once downloaded, use these settings:
+          <br></br>
+
+          <iframe id="prod-preview" style="width: 550px; height: 550px; margin: 0px auto; background: black; border: none;"></iframe>
+
+          <br></br><br></br>
           <p>This is an open source project, for source code check out <a href="https://github.com/CoderElectronics/preflight">our github</a>!</p>
+          <br>
         </div>
       </main>
 
@@ -87,6 +77,7 @@
           <span class="text-muted">Design by AStehney Labs - 2021</span>
         </div>
       </footer>
+      <script src="js/qr.js"></script>
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
             <script>window.jQuery || document.write('<script src="js/vendor/jquery.slim.min.js"><\/script>')</script><script src="js/bootstrap.bundle.min.js"></script>
   </body>

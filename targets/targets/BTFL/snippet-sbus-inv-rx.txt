@@ -1,0 +1,5 @@
+rxrange reset
+feature RX_SERIAL
+set serialrx_provider = SBUS
+set sbus_inversion = ON
+save

@@ -1,0 +1,2 @@
+resetconfig
+save

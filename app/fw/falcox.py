@@ -27,4 +27,4 @@ def readConfig(fc):
 def writeConfig(fc, config):
     config = config+"\n"
     fc.write(config.encode())
-    fc.write("\nsave\n".encode())
+    #fc.write("\nsave\n".encode())

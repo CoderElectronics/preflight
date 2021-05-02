@@ -4,10 +4,10 @@
     ["Nazgul 5 HD (F7 CRSF)", "iFlight",    "Betaflight v4.x", "BTFL", "991975c4-973e-11eb-a8b3-0242ac130003.txt"],
     ["TinyHawk Freestyle (BNF)", "EMAX",    "Betaflight v4.x", "BTFL", "55f38eb1-eb24-4b20-bff0-32342a53ac23.txt"],
 
-    ["Reset Quad Name", "Custom_Snippets",   "Betaflight",     "BTFL", "snippet-reset-name.txt"],
-    ["Firmware Defaults (FalcoX)", "Custom_Snippets", "FalcoX",         "FLKX", "snippet-factory-flkx.txt"],
-    ["Firmware Defaults (Most others)", "Custom_Snippets", "Betaflight",     "BTFL", "snippet-factory-btfl.txt"],
-    ["Change RX to CRSF", "Custom_Snippets",  "Betaflight",    "BTFL", "snippet-crsf-rx.txt"],
-    ["Change RX to SBUS", "Custom_Snippets", "Betaflight",     "BTFL", "snippet-sbus-rx.txt"],
+    ["Reset Quad Name", "Custom_Snippets",   "Betaflight",                "BTFL", "snippet-reset-name.txt"],
+    ["Firmware Defaults (FalcoX)", "Custom_Snippets", "FalcoX",           "FLKX", "snippet-factory-flkx.txt"],
+    ["Firmware Defaults (Most others)", "Custom_Snippets", "Betaflight",  "BTFL", "snippet-factory-btfl.txt"],
+    ["Change RX to CRSF", "Custom_Snippets",  "Betaflight",               "BTFL", "snippet-crsf-rx.txt"],
+    ["Change RX to SBUS", "Custom_Snippets", "Betaflight",                "BTFL", "snippet-sbus-rx.txt"],
     ["Change RX to SBUS (inverted)", "Custom_Snippets", "Betaflight",     "BTFL", "snippet-sbus-inv-rx.txt"]
 ]

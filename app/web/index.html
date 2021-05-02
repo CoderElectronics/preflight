@@ -31,16 +31,25 @@
               if (pagen == "aboutpage") {
                 document.getElementById("readpage").style.display = "none";
                 document.getElementById("writepage").style.display = "none";
+                document.getElementById("writecustompage").style.display = "none";
               }
 
               if (pagen == "writepage") {
                 document.getElementById("readpage").style.display = "none";
                 document.getElementById("aboutpage").style.display = "none";
+                document.getElementById("writecustompage").style.display = "none";
               }
 
               if (pagen == "readpage") {
                 document.getElementById("aboutpage").style.display = "none";
+                document.getElementById("writecustompage").style.display = "none";
+                document.getElementById("writepage").style.display =  "none";
+              }
+
+              if (pagen == "writecustompage") {
+                document.getElementById("aboutpage").style.display = "none";
                 document.getElementById("writepage").style.display = "none";
+                document.getElementById("readpage").style.display =  "none";
               }
             }
 
@@ -54,7 +63,13 @@
               document.getElementById('cfgtxt').value = "";
 
               var target = document.getElementById('firmwareselect').value;
-              document.getElementById('cfgtxt').value = await eel.action_readconfig(activecomport, target)()
+              var targetstat = await eel.action_readconfig(activecomport, target)();
+              if (targetstat != -1) {
+                document.getElementById('cfgtxt').value = targetstat;
+              } else {
+                document.getElementById("statmbody").innerHTML = "There was an error while reading configuration! Please unplug and plug your drone back in, then select your serial port again."
+                $('#statmodel').modal('show');
+              }
               updateStatBar(100);
             }
 
@@ -72,6 +87,23 @@
               var filen = processed_releases[mfSelect][confIndex][4];
               var target = processed_releases[mfSelect][confIndex][3];
               var status = await eel.action_writeconfig(activecomport, target, target+"/"+filen)()
+
+              if (status == 0) {
+                document.getElementById("statmbody").innerHTML = "Configuration was flashed successfully!"
+                $('#statmodel').modal('show');
+              } else {
+                document.getElementById("statmbody").innerHTML = "There was an error while flashing configuration! Please unplug and plug your drone back in, then select your serial port again."
+                $('#statmodel').modal('show');
+              }
+            }
+
+            async function flashCustomConfig() {
+              var target = document.getElementById("customfwselect").value;
+              var confText = document.getElementById("cfgcstmtxt").value;
+
+              var confIndex = -1;
+            
+              var status = await eel.action_writecustomconfig(activecomport, target, confText)()
 
               if (status == 0) {
                 document.getElementById("statmbody").innerHTML = "Configuration was flashed successfully!"
@@ -148,6 +180,7 @@
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configuration</a>
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="javascript:setPage('writepage')">Flash Config</a>
+                    <a class="dropdown-item" href="javascript:setPage('writecustompage')">Flash Custom Config</a>
                     <a class="dropdown-item" href="javascript:setPage('readpage')">Backup Config</a>
                   </div>
                 </li>
@@ -209,10 +242,37 @@
                 <div class="progress-bar progress-bar-striped" id="statbar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <div class="form-group">
-                <textarea class="form-control" id="cfgtxt" rows="3" style="resize: none; height: 273px; background-color: black; color: whitesmoke; font-family: monospace;"></textarea>
+                <textarea class="form-control" id="cfgtxt" rows="3" style="resize: none; height: 273px; background-color: black; color: whitesmoke; font-family: monospace;" readonly></textarea>
               </div>
 
             </div>
+
+            <div id="writecustompage" style="width: 100%; display: none;">
+              <div class="form-group">
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="flashCustomConfig()">Write Configuration</button>
+                <select class="custom-select" id="customfwselect">
+                  <option selected="" value="BTFL">Betaflight</option>
+                  <option value="BTFL">Cleanflight</option>
+                  <option value="BTFL">iNav</option>
+                  <option value="BTFL">Emuflight</option>
+                  <option value="BTFL">Butterflight</option>
+                  <option value="FLKX">FalcoX</option>
+                  <option value="FKIS">Fettec (N/A)</option>
+                  <option value="KISS">Kiss (N/A)</option>
+                </select>
+              </div>
+              
+              <br>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped" id="statbar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" id="cfgcstmtxt" rows="3" style="resize: none; height: 273px; background-color: black; color: whitesmoke; font-family: monospace;"></textarea>
+              </div>
+
+            </div>
+
+
             <div id="writepage" style="width: 100%; display: none;">
              
               <label class="custom-select-label" for="mfselect">Manufacturer</label>
@@ -230,28 +290,30 @@
               <br></br>
               <br></br>
               <button type="button" class="btn btn-primary btn-lg btn-block" onclick="flashConfig()">Flash Configuration</button>
-              
-              <!-- Modal -->
-              <div class="modal fade" id="statmodel" tabindex="-1" role="dialog" aria-labelledby="statModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="statModalLabel">Status</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body" id="statmbody">
-                      ...
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="statmodel" tabindex="-1" role="dialog" aria-labelledby="statModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="statModalLabel">Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" id="statmbody">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   </div>
                 </div>
               </div>
-
             </div>
+
+            
         </div>
 
         <!-- Bootstrap JS code -->

@@ -61,9 +61,15 @@ def serial_ports():
 # main web ui actions
 @eel.expose
 def action_readconfig(com, target):
-    comport = serial.Serial(com, 115200, timeout=.8)
-    config = configTargets[target].readConfig(comport)
-    return config
+    try:
+        comport = serial.Serial(com, 115200, timeout=.8)
+        config = configTargets[target].readConfig(comport)
+    except Exception as err:
+        print(f'Other error occurred: {err}')  # Python 3.6
+        return -1
+    else:
+        return config
+    
 
 @eel.expose
 def action_scanports():
@@ -93,9 +99,24 @@ def action_writeconfig(com, target, targurl):
         print(f'Other error occurred: {err}')  # Python 3.6
         return -1
     else:
-        comport = serial.Serial(com, 115200, timeout=.8)
-        configTargets[target].writeConfig(comport, response.text)
+        try:
+            comport = serial.Serial(com, 115200, timeout=.8)
+            configTargets[target].writeConfig(comport, response.text)
+        except Exception as err:
+            print(f'Other error occurred: {err}')  # Python 3.6
+            return -1
+        else:
+            return 0
 
+@eel.expose
+def action_writecustomconfig(com, target, confscript):
+    try:
+        comport = serial.Serial(com, 115200, timeout=.8)
+        configTargets[target].writeConfig(comport, confscript)
+    except Exception as err:
+        print(f'Other error occurred: {err}')  # Python 3.6
+        return -1
+    else:
         return 0
 
 # actually start eel webui

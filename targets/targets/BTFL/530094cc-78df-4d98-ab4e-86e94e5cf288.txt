@@ -1,0 +1,145 @@
+# diff all
+
+# version
+# Betaflight / STM32F7X2 (S7X2) 4.2.3 Sep 20 2020 / 20:44:12 (2696b7c88) MSP API: 1.43
+# config: manufacturer_id: TTRH, board_name: TRANSTECF7HD, version: 14929e39, date: 2020-08-31T10:05:16Z
+
+# start the command batch
+batch start
+
+# reset configuration to default settings
+defaults nosave
+
+board_name TRANSTECF7HD
+manufacturer_id TTRH
+mcu_id 004900343438510f31353632
+signature 
+
+# name: CineShark
+
+# resources
+resource MOTOR 1 C06
+resource MOTOR 2 B00
+resource MOTOR 3 C07
+resource MOTOR 4 B01
+
+# beacon
+beacon RX_SET
+
+# aux
+aux 0 0 0 1700 2100 0 0
+aux 1 1 1 1700 2100 0 0
+aux 2 13 3 1700 2100 0 0
+aux 3 35 2 1700 2100 0 0
+
+# master
+set gyro_lowpass2_hz = 300
+set dyn_lpf_gyro_min_hz = 240
+set dyn_lpf_gyro_max_hz = 600
+set acc_calibration = 26,-23,21,1
+set rc_smoothing_auto_smoothness = 20
+set motor_pwm_protocol = DSHOT600
+set vbat_max_cell_voltage = 440
+set yaw_motors_reversed = ON
+set small_angle = 180
+set osd_vbat_pos = 2273
+set osd_craft_name_pos = 2475
+set osd_avg_cell_voltage_pos = 2241
+set osd_disarmed_pos = 2283
+set name = CineShark
+
+profile 0
+
+# profile 0
+set dyn_lpf_dterm_min_hz = 84
+set dyn_lpf_dterm_max_hz = 204
+set dterm_lowpass2_hz = 180
+set anti_gravity_gain = 6000
+set feedforward_transition = 40
+set iterm_relax_type = GYRO
+set iterm_relax_cutoff = 10
+set p_pitch = 75
+set i_pitch = 81
+set d_pitch = 47
+set f_pitch = 200
+set p_roll = 68
+set i_roll = 77
+set d_roll = 43
+set f_roll = 200
+set p_yaw = 73
+set i_yaw = 81
+set f_yaw = 100
+set d_min_roll = 0
+set d_min_pitch = 0
+
+profile 1
+
+# profile 1
+set anti_gravity_gain = 6000
+set feedforward_transition = 40
+set iterm_relax_type = GYRO
+set iterm_relax_cutoff = 10
+set p_pitch = 60
+set i_pitch = 80
+set d_pitch = 45
+set f_pitch = 200
+set p_roll = 67
+set i_roll = 80
+set d_roll = 45
+set f_roll = 200
+set p_yaw = 100
+set i_yaw = 80
+set f_yaw = 100
+set d_min_roll = 0
+set d_min_pitch = 0
+
+profile 2
+
+# profile 2
+set anti_gravity_gain = 6000
+set feedforward_transition = 40
+set iterm_relax_type = GYRO
+set iterm_relax_cutoff = 10
+set p_pitch = 60
+set i_pitch = 80
+set d_pitch = 45
+set f_pitch = 200
+set p_roll = 67
+set i_roll = 80
+set d_roll = 45
+set f_roll = 200
+set p_yaw = 100
+set i_yaw = 80
+set f_yaw = 100
+set d_min_roll = 0
+set d_min_pitch = 0
+
+# restore original profile selection
+profile 0
+
+rateprofile 0
+
+# rateprofile 0
+set roll_expo = 2
+set pitch_expo = 2
+set yaw_expo = 11
+set roll_srate = 59
+set pitch_srate = 59
+set yaw_srate = 59
+set tpa_breakpoint = 1750
+
+rateprofile 1
+
+rateprofile 2
+
+rateprofile 3
+
+rateprofile 4
+
+rateprofile 5
+
+# restore original rateprofile selection
+rateprofile 0
+
+# save configuration
+save

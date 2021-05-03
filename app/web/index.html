@@ -97,6 +97,15 @@
               }
             }
 
+            eel.expose(python_log_js);
+            function python_log_js(logstr) {
+              console.log(logstr)
+            }
+
+            async function installDriver() {
+              await eel.action_driverinstall()();
+            }
+
             async function flashCustomConfig() {
               var target = document.getElementById("customfwselect").value;
               var confText = document.getElementById("cfgcstmtxt").value;
@@ -161,6 +170,7 @@
               for (var i = 0; i < comports.length; i++) {
                   document.getElementById('portslist').innerHTML += `<a class="dropdown-item" href="javascript:setPort('${comports[i]}');">${comports[i]}</a>`;
               }
+              document.getElementById('portslist').innerHTML += `<a class="dropdown-item" href="javascript:installDriver()">Can't find the port?</a>`;
               console.log("Ports scanned!");
             }
 

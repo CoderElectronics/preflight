@@ -30,6 +30,11 @@ def press():
 # eel init
 eel.init('web')
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
 def serial_ports():
     """ Lists serial port names
 
@@ -74,6 +79,11 @@ def action_readconfig(com, target):
 @eel.expose
 def action_scanports():
     return json.dumps(serial_ports())
+
+@eel.expose
+def action_driverinstall():
+    os.startfile(resource_path("fw/bin/impulserc-drivers.exe"))
+    return 0
 
 @eel.expose
 def action_getrelease():

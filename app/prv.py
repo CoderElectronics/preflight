@@ -1,4 +1,5 @@
 import os, sys, platform, serial, time, eel, requests, glob, json
+from sys import platform as plat
 
 # Preflight v1.0 - one click FPV drone config application
 # by: Ari Stehney
@@ -82,8 +83,16 @@ def action_scanports():
 
 @eel.expose
 def action_driverinstall():
-    os.startfile(resource_path("fw/bin/impulserc-drivers.exe"))
-    return 0
+    if plat == "linux" or plat == "linux2":
+        # Linux, Nothing to do here....
+        return 1
+    elif plat == "darwin":
+        # OSX, Nothing to do here....
+        return 1
+    elif plat == "win32":
+        # Windows driver stuff
+        os.startfile(resource_path("fw/bin/impulserc-drivers.exe"))
+        return 0
 
 @eel.expose
 def action_getrelease():

@@ -103,7 +103,15 @@
             }
 
             async function installDriver() {
-              await eel.action_driverinstall()();
+              var driverstatus = await eel.action_driverinstall()();
+              
+              if (driverstatus == 1) {
+                document.getElementById("statmbody").innerHTML = "You are on a platform that shouldn't need additional drivers, try to reboot your device and start again."
+                $('#statmodel').modal('show');
+              } else {
+                document.getElementById("statmbody").innerHTML = "Starting the ImpulseRC Driver Fixer tool... <br><br>This will install the STM32 Com Port driver for your board."
+                $('#statmodel').modal('show');
+              }
             }
 
             async function flashCustomConfig() {

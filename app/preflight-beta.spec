@@ -21,7 +21,7 @@ def extra_datas(mydir):
 a = Analysis(['prv.py'],
              pathex=['.\\'],
              binaries=[],
-             datas=[],
+             datas=[('main.js', '.'), ("package.json", '.'), ("package-lock.json", '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -33,6 +33,7 @@ a = Analysis(['prv.py'],
 
 a.datas += extra_datas('fw')
 a.datas += extra_datas('web')
+a.datas += extra_datas('node_modules')
 
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)

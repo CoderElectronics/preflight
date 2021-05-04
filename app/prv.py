@@ -1,10 +1,12 @@
-import os, sys, platform, serial, time, eel, requests, glob, json
+import os, sys, platform, serial, time, eel, eel.browsers, requests, glob, json
 from sys import platform as plat
 
 # Preflight v1.0 - one click FPV drone config application
 # by: Ari Stehney
 #
 # Compatible with iNav, Emuflight, Betaflight, and Butterflight
+
+eel.browsers.set_path('electron', 'node_modules/electron/dist/electron')
 
 import fw.btfl as btfl
 import fw.fettec as kiss_fettec
@@ -139,4 +141,5 @@ def action_writecustomconfig(com, target, confscript):
         return 0
 
 # actually start eel webui
-eel.start('index.html', mode="chrome", size=(700, 700))  # Start
+
+eel.start('index.html', size=(600, 600), mode='custom', cmdline_args=[resource_path('node_modules/electron/dist/electron'), resource_path(".")])  # Start

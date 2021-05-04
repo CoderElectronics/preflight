@@ -141,5 +141,4 @@ def action_writecustomconfig(com, target, confscript):
         return 0
 
 # actually start eel webui
-
 eel.start('index.html', size=(600, 600), mode='custom', cmdline_args=[resource_path('node_modules/electron/dist/electron'), resource_path(".")])  # Start

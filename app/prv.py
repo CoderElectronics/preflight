@@ -9,14 +9,12 @@ from sys import platform as plat
 eel.browsers.set_path('electron', 'node_modules/electron/dist/electron')
 
 import fw.btfl as btfl
-import fw.fettec as kiss_fettec
 import fw.kiss as kiss_vanilla
 import fw.falcox as falcox
 
 configTargets = {
     "BTFL": btfl,
     "FLKX": falcox,
-    "FKIS": kiss_fettec,
     "KISS": kiss_vanilla
 }
 
